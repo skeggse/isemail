@@ -157,7 +157,7 @@ var expectations = [
   ['test@(comment)abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghikl.com', diagnoses.ISEMAIL_DEPREC_CFWS_NEAR_AT],
   ['(comment)test@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghik.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghik.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijk.abcdefghijklmnopqrstuvwxyzabcdefghijk.abcdefghijklmnopqrstu', diagnoses.ISEMAIL_CFWS_COMMENT],
   ['test@iana.org\n', diagnoses.ISEMAIL_ERR_EXPECTING_ATEXT],
-  ['test@xn--hxajbheg2az3al.xn--jxalpdlp', diagnoses.ISEMAIL_VALID],
+  ['test@xn--hxajbheg2az3al.xn--jxalpdlp', diagnoses.ISEMAIL_DNSWARN_NO_RECORD],
   ['xn--test@iana.org', diagnoses.ISEMAIL_VALID],
   ['test@iana.org-', diagnoses.ISEMAIL_ERR_DOMAINHYPHENEND],
   ['"test@iana.org', diagnoses.ISEMAIL_ERR_UNCLOSEDQUOTEDSTR],
