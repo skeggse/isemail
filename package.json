@@ -1,0 +1,39 @@
+{
+  "name": "isemail",
+  "version": "0.1.0",
+  "author": "Eli Skeggs <skeggse@gmail.com>",
+  "description": "validate an email address according to RFCs 5321, 5322, and others",
+  "main": "./index",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globesherpa/isemail.git"
+  },
+  "homepage": "https://github.com/globesherpa/isemail",
+  "bugs": "https://github.com/globesherpa/isemail/issues",
+  "keywords": [
+    "isemail",
+    "validation",
+    "check",
+    "checking",
+    "verification",
+    "email",
+    "address",
+    "email address"
+  ],
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "expect.js": "~0.2.0"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://www.opensource.org/licenses/bsd-license.php"
+    }
+  ],
+  "engines": {
+    "node": "*"
+  }
+}
