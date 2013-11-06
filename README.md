@@ -1,7 +1,7 @@
 isemail
 =======
 
-This first version of `isemail` is a port of the PHP `is_email` function.
+This first version of `isemail` is a port of the PHP `is_email` function by Dominic Sayers.
 
 Future versions will improve upon the current version, optimizing it for efficient usage and DRYing the code.
 
@@ -81,3 +81,5 @@ License
 =======
 
 [BSD License](http://www.opensource.org/licenses/bsd-license.php)
+
+[tests]: http://isemail.info/_system/is_email/test/?all‎ "is_email test suite"
