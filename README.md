@@ -9,7 +9,7 @@ Install
 -------
 
 ```sh
-$ npm install slurp
+$ npm install isemail
 ```
 
 Test
