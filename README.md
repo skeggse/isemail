@@ -1,6 +1,8 @@
 isemail
 =======
 
+[![Build Status](https://travis-ci.org/globesherpa/node-isemail.png)](https://travis-ci.org/globesherpa/node-isemail)
+
 This first version of `isemail` is a port of the PHP `is_email` function by Dominic Sayers.
 
 Future versions will improve upon the current version, optimizing it for efficient usage and DRYing the code.
