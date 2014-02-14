@@ -89,7 +89,7 @@ var expectations = [
   ['test@mason-dixon.com', diagnoses.ISEMAIL_VALID],
   ['test@-iana.org', diagnoses.ISEMAIL_ERR_DOMAINHYPHENSTART],
   ['test@iana-.com', diagnoses.ISEMAIL_ERR_DOMAINHYPHENEND],
-  ['test@c--n.com', diagnoses.ISEMAIL_VALID],
+  ['test@c--n.com', diagnoses.ISEMAIL_DNSWARN_NO_MX_RECORD],
   ['test@iana.co-uk', diagnoses.ISEMAIL_DNSWARN_NO_RECORD],
   ['test@.iana.org', diagnoses.ISEMAIL_ERR_DOT_START],
   ['test@iana.org.', diagnoses.ISEMAIL_ERR_DOT_END],
