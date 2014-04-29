@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/globesherpa/isemail.git"
+    "url": "https://github.com/globesherpa/node-isemail.git"
   },
-  "homepage": "https://github.com/globesherpa/isemail",
-  "bugs": "https://github.com/globesherpa/isemail/issues",
+  "homepage": "https://github.com/globesherpa/node-isemail",
+  "bugs": "https://github.com/globesherpa/node-isemail/issues",
   "keywords": [
     "isemail",
     "validation",
