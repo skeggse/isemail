@@ -2,6 +2,7 @@ isemail
 =======
 
 [![Build Status](https://travis-ci.org/globesherpa/node-isemail.png)](https://travis-ci.org/globesherpa/node-isemail)
+[![Coverage Status](https://coveralls.io/repos/globesherpa/node-isemail/badge.png?branch=master)](https://coveralls.io/r/globesherpa/node-isemail?branch=master)
 
 This first version of `isemail` is a port of the PHP `is_email` function by Dominic Sayers.
 
