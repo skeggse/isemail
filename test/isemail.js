@@ -213,6 +213,7 @@ var expectations = [
   ['test@iana.org \r\n \r\n', diagnoses.ISEMAIL_ERR_FWS_CRLF_END],
   ['test@iana.org \r\n\r\n', diagnoses.ISEMAIL_ERR_FWS_CRLF_X2],
   ['test@iana.org \r\n\r\n ', diagnoses.ISEMAIL_ERR_FWS_CRLF_X2],
+  ['test@[\r\n', diagnoses.ISEMAIL_ERR_FWS_CRLF_END],
   [' test@iana.org', diagnoses.ISEMAIL_CFWS_FWS],
   ['test@iana.org ', diagnoses.ISEMAIL_CFWS_FWS],
   ['test@[IPv6:1::2:]', diagnoses.ISEMAIL_RFC5322_IPV6_COLONEND],
