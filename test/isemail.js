@@ -220,6 +220,7 @@ var expectations = [
   ['"test\\©"@iana.org', diagnoses.ISEMAIL_ERR_EXPECTING_QPAIR],
   ['test@iana/icann.org', diagnoses.ISEMAIL_RFC5322_DOMAIN],
   ['test.(comment)test@iana.org', diagnoses.ISEMAIL_DEPREC_COMMENT],
+  ['test@iana.(bad)org', diagnoses.ISEMAIL_DEPREC_COMMENT],
   ['test@org', diagnoses.ISEMAIL_RFC5321_TLD],
   ['test@test.com', diagnoses.ISEMAIL_DNSWARN_NO_MX_RECORD],
   ['test@nic.no', diagnoses.ISEMAIL_DNSWARN_NO_RECORD]
