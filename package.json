@@ -1,6 +1,6 @@
 {
   "name": "isemail",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Eli Skeggs <skeggse@gmail.com>",
   "description": "validate an email address according to RFCs 5321, 5322, and others",
   "main": "./index",
