@@ -1,6 +1,6 @@
 {
   "name": "isemail",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Eli Skeggs <skeggse@gmail.com>",
   "description": "validate an email address according to RFCs 5321, 5322, and others",
   "main": "./index",
@@ -25,7 +25,7 @@
   ],
   "devDependencies": {
     "mocha": "~1.13.0",
-    "expect.js": "~0.2.0"
+    "chai": "~1.9.1"
   },
   "licenses": [
     {
