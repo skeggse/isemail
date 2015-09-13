@@ -1,11 +1,12 @@
 {
   "name": "isemail",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "author": "Eli Skeggs <skeggse@gmail.com>",
   "description": "validate an email address according to RFCs 5321, 5322, and others",
   "main": "./index",
   "scripts": {
-    "test": "mocha"
+    "test": "lab -r console -o stdout -r lcov -o coverage.lcov -a code -L",
+    "test-cov-html": "lab -r html -o coverage.html -a code"
   },
   "repository": {
     "type": "git",
@@ -24,16 +25,11 @@
     "email address"
   ],
   "devDependencies": {
-    "mocha": "~2.3.2",
-    "chai": "~3.2.0"
+    "code": "^1.5.0",
+    "lab": "^5.16.1"
   },
-  "licenses": [
-    {
-      "type": "BSD",
-      "url": "http://www.opensource.org/licenses/bsd-license.php"
-    }
-  ],
+  "license": "BSD-2-Clause",
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10"
   }
 }
