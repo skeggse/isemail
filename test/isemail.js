@@ -78,7 +78,7 @@ var expectations = [
     ['test@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888]', diag.rfc5321AddressLiteral],
     ['test@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888:9999]', diag.rfc5322IPv6GroupCount],
     ['test@[IPv6:1111:2222:3333:4444:5555:6666:7777:888G]', diag.rfc5322IPv6BadCharacter],
-    ['test@[IPv6:1111:2222:3333:4444:5555:6666::8888]', diag.rfc5321IPv6Deprecated],
+    ['test@[IPv6:1111:2222:3333:4444:5555:6666::8888]', diag.deprecatedIPv6],
     ['test@[IPv6:1111:2222:3333:4444:5555::8888]', diag.rfc5321AddressLiteral],
     ['test@[IPv6:1111:2222:3333:4444:5555:6666::7777:8888]', diag.rfc5322IPv6MaxGroups],
     ['test@[IPv6::3333:4444:5555:6666:7777:8888]', diag.rfc5322IPv6ColonStart],
