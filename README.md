@@ -18,12 +18,12 @@ $ npm install isemail
 Test
 ----
 
-The tests were pulled from is_email's extensive [test suite][tests] on October 15, 2013. Many thanks to the contributors!
+The tests were pulled from is_email's extensive [test suite][tests] on October 15, 2013. Many thanks to the contributors! Additional tests have been added to increase code coverage and verify edge-cases.
 
 Run any of the following.
 
 ```sh
-$ mocha
+$ lab
 $ npm test
 $ make test
 ```
