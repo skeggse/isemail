@@ -1,24 +1,26 @@
 isemail
 =======
 
+Node email address validation library
+
 [![Build Status](https://travis-ci.org/hapijs/isemail.png)](https://travis-ci.org/hapijs/isemail)
 [![Coverage Status](https://coveralls.io/repos/hapijs/isemail/badge.png?branch=master)](https://coveralls.io/r/hapijs/isemail?branch=master)
 
-This first version of `isemail` is a port of the PHP `is_email` function by Dominic Sayers.
+Lead Maintainer: [Eli Skeggs][skeggse]
 
-Future versions will improve upon the current version, optimizing it for efficient usage and DRYing the code.
+This library is a port of the PHP `is_email` function by Dominic Sayers.
 
 Install
--------
+=======
 
 ```sh
 $ npm install isemail
 ```
 
 Test
-----
+====
 
-The tests were pulled from is_email's extensive [test suite][tests] on October 15, 2013. Many thanks to the contributors! Additional tests have been added to increase code coverage and verify edge-cases.
+The tests were pulled from `is_email`'s extensive [test suite][tests] on October 15, 2013. Many thanks to the contributors! Additional tests have been added to increase code coverage and verify edge-cases.
 
 Run any of the following.
 
@@ -28,12 +30,13 @@ $ npm test
 $ make test
 ```
 
-_remember to_ `npm install`!
+_remember to_ `npm install` to get the development dependencies!
 
 API
----
+===
 
-### isEmail(email, [options], [callback])
+isEmail(email, [options], [callback])
+-------------------------------------
 
 Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel` and `checkDNS`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. If `isEmail` is not asked to check for the existence of the domain (`checkDNS`), it will also synchronously return the result of the operation.
 
@@ -43,7 +46,7 @@ The `tldWhitelist` option can be either an object lookup table or an array of va
 
 The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses. To better handle fringe cases like the `io` TLD, use the `checkDNS` parameter, which will only allow email addresses for domains which have an MX record.
 
-#### Examples
+### Examples
 
 ```js
 $ node
@@ -79,14 +82,10 @@ undefined
 result 6
 ```
 
-TODO
-====
-
-Add tests for library usage, not just functionality comparisons.
-
 License
 =======
 
 [BSD License](http://www.opensource.org/licenses/bsd-license.php)
 
+[skeggse]: https://github.com/skeggse "Eli Skeggs"
 [tests]: http://isemail.info/_system/is_email/test/?all‎ "is_email test suite"
