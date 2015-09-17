@@ -3,8 +3,7 @@ isemail
 
 Node email address validation library
 
-[![Build Status](https://travis-ci.org/hapijs/isemail.png)](https://travis-ci.org/hapijs/isemail)
-[![Coverage Status](https://coveralls.io/repos/hapijs/isemail/badge.png?branch=master)](https://coveralls.io/r/hapijs/isemail?branch=master)
+[![Build Status](https://travis-ci.org/hapijs/isemail.png)](https://travis-ci.org/hapijs/isemail)<a href="#footnote-1"><sup>&#91;1&#93;</sup></a>
 
 Lead Maintainer: [Eli Skeggs][skeggse]
 
@@ -86,6 +85,8 @@ License
 =======
 
 [BSD License](http://www.opensource.org/licenses/bsd-license.php)
+
+<sup name="footnote-1">&#91;1&#93;</sup>: if this badge indicates the build is passing, then isemail has 100% code coverage.
 
 [skeggse]: https://github.com/skeggse "Eli Skeggs"
 [tests]: http://isemail.info/_system/is_email/test/?all‎ "is_email test suite"
