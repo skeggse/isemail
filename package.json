@@ -1,19 +1,9 @@
 {
   "name": "isemail",
-  "version": "1.2.0",
-  "author": "Eli Skeggs <skeggse@gmail.com>",
-  "description": "validate an email address according to RFCs 5321, 5322, and others",
-  "main": "./index",
-  "scripts": {
-    "test": "lab -r console -o stdout -r lcov -o coverage.lcov -a code -L",
-    "test-cov-html": "lab -r html -o coverage.html -a code"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hapijs/isemail.git"
-  },
-  "homepage": "https://github.com/hapijs/isemail",
-  "bugs": "https://github.com/hapijs/isemail/issues",
+  "description": "Validate an email address according to RFCs 5321, 5322, and others",
+  "version": "2.0.0",
+  "repository": "git://github.com/hapijs/isemail",
+  "main": "lib/index.js",
   "keywords": [
     "isemail",
     "validation",
@@ -24,12 +14,18 @@
     "address",
     "email address"
   ],
-  "devDependencies": {
-    "code": "^1.5.0",
-    "lab": "^5.16.1"
-  },
-  "license": "BSD-2-Clause",
   "engines": {
-    "node": ">=0.10"
-  }
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "code": "2.x.x",
+    "lab": "7.x.x"
+  },
+  "scripts": {
+    "test": "lab -a code -t 100 -L",
+    "test-cov-html": "lab -a code -r html -o coverage.html"
+  },
+  "license": "BSD-3-Clause"
 }
