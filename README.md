@@ -1,5 +1,4 @@
-isemail
-=======
+# isemail
 
 Node email address validation library
 
@@ -34,12 +33,12 @@ _remember to_ `npm install` to get the development dependencies!
 API
 ===
 
-isEmail(email, [options], [callback])
--------------------------------------
+validate(email, [options], [callback])
+--------------------------------------
 
-Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel` and `checkDNS`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. If `isEmail` is not asked to check for the existence of the domain (`checkDNS`), it will also synchronously return the result of the operation.
+Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel` and `checkDNS`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. If `validate()` is not asked to check for the existence of the domain (`checkDNS`), it will also synchronously return the result of the operation.
 
-Use `errorLevel` to specify the type of result for `isEmail`. Passing a `false` literal will result in a true or false boolean indicating whether the email address is sufficiently defined for use in sending an email. Passing a `true` literal will result in a more granular numeric status, with zero being a perfectly valid email address. Passing a number will return `0` if the numeric status is below the `errorLevel` and the numeric status otherwise.
+Use `errorLevel` to specify the type of result for `validate()`. Passing a `false` literal will result in a true or false boolean indicating whether the email address is sufficiently defined for use in sending an email. Passing a `true` literal will result in a more granular numeric status, with zero being a perfectly valid email address. Passing a number will return `0` if the numeric status is below the `errorLevel` and the numeric status otherwise.
 
 The `tldWhitelist` option can be either an object lookup table or an array of valid top-level domains. If the email address has a top-level domain that is not in the whitelist, the email will be marked as invalid.
 
@@ -49,42 +48,37 @@ The `minDomainAtoms` option is an optional positive integer that specifies the m
 
 ```js
 $ node
-> var isEmail = require('isemail');
+> var Isemail = require('isemail');
 undefined
 > var log = console.log.bind(console, 'result');
 undefined
-> isEmail('test@iana.org');
+> Isemail.validate('test@iana.org');
 true
-> isEmail('test@iana.org', log);
+> Isemail.validate('test@iana.org', log);
 result true
 true
-> isEmail('test@iana.org', {checkDNS: true});
+> Isemail.validate('test@iana.org', {checkDNS: true});
 undefined
-> isEmail('test@iana.org', {checkDNS: true}, log);
+> Isemail.validate('test@iana.org', {checkDNS: true}, log);
 undefined
 result true
-> isEmail('test@iana.org', {errorLevel: true});
+> Isemail.validate('test@iana.org', {errorLevel: true});
 0
-> isEmail('test@iana.org', {errorLevel: true}, log);
+> Isemail.validate('test@iana.org', {errorLevel: true}, log);
 result 0
 0
-> isEmail('test@e.com');
+> Isemail.validate('test@e.com');
 true
-> isEmail('test@e.com', {checkDNS: true, errorLevel: true}, log);
+> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: true}, log);
 undefined
 result 6
-> isEmail('test@e.com', {checkDNS: true, errorLevel: 7}, log);
+> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: 7}, log);
 undefined
 result 0
-> isEmail('test@e.com', {checkDNS: true, errorLevel: 6}, log);
+> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: 6}, log);
 undefined
 result 6
 ```
-
-License
-=======
-
-[BSD License](http://www.opensource.org/licenses/bsd-license.php)
 
 <sup name="footnote-1">&#91;1&#93;</sup>: if this badge indicates the build is passing, then isemail has 100% code coverage.
 
