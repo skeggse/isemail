@@ -63,12 +63,43 @@ describe('validate()', () => {
             checkDNS: false
         })).to.equal(false);
 
+        expect(Isemail.validate('person@top', {
+            tldWhitelist: { com: true },
+            checkDNS: false
+        })).to.equal(false);
+
         expect(() => {
 
             Isemail.validate('', {
                 tldWhitelist: 77
             });
         }).to.throw(/tldWhitelist/);
+        done();
+    });
+
+    it('should check options.tldBlacklist', (done) => {
+
+        expect(Isemail.validate('person@top', {
+            tldBlacklist: 'top',
+            checkDNS: false
+        })).to.equal(false);
+
+        expect(Isemail.validate('person@top', {
+            tldBlacklist: ['com'],
+            checkDNS: false
+        })).to.equal(true);
+
+        expect(Isemail.validate('person@top', {
+            tldBlacklist: { com: true },
+            checkDNS: false
+        })).to.equal(true);
+
+        expect(() => {
+
+            Isemail.validate('', {
+                tldBlacklist: 77
+            });
+        }).to.throw(/tldBlacklist/);
         done();
     });
 
@@ -153,14 +184,22 @@ describe('validate()', () => {
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
-                tldWhitelist: {
-                    com: true
-                }
+                tldWhitelist: { com: true }
             })).to.equal(result);
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
                 tldWhitelist: ['com']
+            })).to.equal(result);
+
+            expect(Isemail.validate(email, {
+                errorLevel: 0,
+                tldBlacklist: { invalid: true }
+            })).to.equal(result);
+
+            expect(Isemail.validate(email, {
+                errorLevel: 0,
+                tldBlacklist: ['invalid']
             })).to.equal(result);
 
             done();
