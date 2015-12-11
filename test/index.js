@@ -161,7 +161,8 @@ describe('validate()', () => {
 
     expectations.forEach((obj, i) => {
 
-        const email = obj[0], result = obj[1];
+        const email = obj[0]
+        const result = obj[1];
         it('should handle test ' + (i + 1), (done) => {
 
             Isemail.validate(email, {
