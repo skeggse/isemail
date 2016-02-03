@@ -14,6 +14,7 @@
     ["êjness@iana.org", "valid"],
     ["ñoñó1234@iana.org", "valid"],
     ["ñoñó1234@something.com", "valid"],
+    ["伊昭傑@郵件.商務", "valid"],
     ["\ud801\udc37\ud852\udf62@iana.org", "valid"],
     ["test.test@iana.org", "valid"],
     [".test@iana.org", "errDotStart"],
