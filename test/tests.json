@@ -127,8 +127,8 @@
     ["test@[RFC-5322-domain-literal\\", "errBackslashEnd"],
     ["test@[RFC 5322 domain literal]", "rfc5322DomainLiteral"],
     ["test@[RFC-5322-domain-literal] (comment)", "rfc5322DomainLiteral"],
-    ["@iana.org", "errExpectingATEXT"],
-    ["test@.org", "errExpectingATEXT"],
+    ["@iana.org", "errNoLocalPart"],
+    ["test@.org", "errDotStart"],
     ["\"\"@iana.org", "deprecatedQTEXT"],
     ["\"\"@iana.org", "errExpectingQTEXT"],
     ["\"\\\"@iana.org", "deprecatedQP"],
@@ -183,5 +183,10 @@
     ["(comment\r\n comment)test@iana.org", "cfwsFWS"],
     ["test@org", "rfc5321TLD"],
     ["test@example.com", "dnsWarnNoMXRecord"],
-    ["test@nic.no", "dnsWarnNoRecord"]
+    ["test@nic.no", "dnsWarnNoRecord"],
+    ["êjness@iana.com", "dnsWarnNoMXRecord"],
+    ["ñoñó1234@iana.com", "dnsWarnNoMXRecord"],
+    ["ñoñó1234@something.com", "valid"],
+    ["ñoñó1234@ñomething.com", "dnsWarnNoRecord"],
+    ["伊昭傑@郵件.商務", "dnsWarnNoRecord"]
 ]
