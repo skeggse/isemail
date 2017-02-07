@@ -48,6 +48,10 @@ const tldExpectations = [
     ['shouldbe@example.com', diag.valid]
 ];
 
+const noDNSExpectations = [
+    ['伊昭傑@郵件.商務', diag.valid],
+    ['ñoñó1234@ñomething.com', diag.valid]
+];
 
 describe('validate()', () => {
 
@@ -204,6 +208,23 @@ describe('validate()', () => {
             })).to.equal(result);
 
             done();
+        });
+    });
+
+    noDNSExpectations.forEach((obj, i) => {
+
+        const email = obj[0];
+        const result = obj[1];
+        it('should handle noDNS test ' + (i + 1), (done) => {
+
+            Isemail.validate(email, {
+                errorLevel: 0,
+                checkDNS: false
+            }, (res) => {
+
+                expect(res).to.equal(result);
+                done();
+            });
         });
     });
 
