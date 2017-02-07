@@ -118,6 +118,7 @@
     ["test@iana.org(comment\\)", "errUnclosedComment"],
     ["test@iana.org(comment\\", "errBackslashEnd"],
     ["test@[RFC-5322-domain-literal]", "rfc5322DomainLiteral"],
+    ["test@[RFC-5322-郵件ñó-domain-literal]", "rfc5322DomainLiteral"],
     ["test@[RFC-5322]-domain-literal]", "errATEXTAfterDomainLiteral"],
     ["test@[RFC-5322-[domain-literal]", "errExpectingDTEXT"],
     ["test@[", "errExpectingDTEXT"],
@@ -142,6 +143,7 @@
     ["\"\rtest\"@iana.org", "errCRNoLF"],
     ["(\r)test@iana.org", "errCRNoLF"],
     ["test@iana.org(\r)", "errCRNoLF"],
+    ["test@<iana>.org", "errExpectingATEXT"],
     ["\ntest@iana.org", "errExpectingATEXT"],
     ["\"\n\"@iana.org", "errExpectingQTEXT"],
     ["\"\\\n\"@iana.org", "deprecatedQP"],
@@ -186,5 +188,8 @@
     ["(comment\r\n comment)test@iana.org", "cfwsFWS"],
     ["test@org", "rfc5321TLD"],
     ["test@example.com", "dnsWarnNoMXRecord"],
-    ["test@nic.no", "dnsWarnNoRecord"]
+    ["test@nic.no", "dnsWarnNoRecord"],
+    ["test@ñoñó郵件ñoñó郵件ñoñó郵件ñoñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñ.oñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñ.oñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322DomainTooLong"],
+    ["test@ñoñó郵件ñoñó郵件ñoñó郵件ñoñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322LabelTooLong"],
+    ["ñoñó郵件ñoñó郵件ñoñó郵件ñoñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件@test.ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñ.oñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñ.oñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322TooLong"]
 ]
