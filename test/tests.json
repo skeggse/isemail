@@ -176,7 +176,7 @@
     [" test@iana.org", "cfwsFWS"],
     ["test@iana.org ", "cfwsFWS"],
     ["test@[IPv6:1::2:]", "rfc5322IPv6ColonEnd"],
-    ["\"test\\©\"@iana.org", "errExpectingQPair"],
+    ["\"test\\\u0094\"@iana.org", "errExpectingQPair"],
     ["test@iana/icann.org", "rfc5322Domain"],
     ["test@iana!icann.org", "rfc5322Domain"],
     ["test@iana?icann.org", "rfc5322Domain"],
