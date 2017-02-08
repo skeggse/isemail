@@ -4,8 +4,8 @@
 
 const Lab = require('lab');
 const Code = require('code');
-const Rewire = require('rewire');
-const Isemail = Rewire('..');
+const Proxyquire = require('proxyquire');
+const Punycode = require('punycode');
 
 // Test shortcuts
 
@@ -29,7 +29,7 @@ const dns_stub = {
     }
 };
 
-Isemail.__set__('Dns', dns_stub);
+const Isemail = Proxyquire('..', { dns: dns_stub });
 
 describe('validate() international domains', () => {
 
@@ -40,7 +40,7 @@ describe('validate() international domains', () => {
             checkDNS: true
         }, () => {
 
-            expect(internals.punyDomain).to.equal('xn--5nqv22n.xn--lhr59c');
+            expect(Punycode.toUnicode(internals.punyDomain)).to.equal('郵件.商務');
             done();
         });
     });
