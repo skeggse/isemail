@@ -44,4 +44,16 @@ describe('validate() international domains', () => {
             done();
         });
     });
+
+    it('should normalize domains', (done) => {
+
+        Isemail.validate('test@man\u0303ana.com', {
+            errorLevel: 0,
+            checkDNS: true
+        }, () => {
+
+            expect(Punycode.toUnicode(internals.punyDomain)).to.equal('mañana.com');
+            done();
+        });
+    });
 });

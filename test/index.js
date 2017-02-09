@@ -248,3 +248,24 @@ describe('validate()', () => {
         done();
     });
 });
+
+describe('normalize', () => {
+
+    const normalizeExpectations = [
+        ['man\u0303ana.com', 'mañana.com']
+    ];
+
+    normalizeExpectations.forEach((normalizingPair) => {
+
+        it('should properly normalize international characters', (done) => {
+
+            const normal = normalizingPair[1];
+            const email = normalizingPair[0];
+            const normalizedEmail = Isemail.normalize(email);
+
+            expect(email).to.not.equal(normal);
+            expect(normalizedEmail).to.equal(normal);
+            done();
+        });
+    });
+});

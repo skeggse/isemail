@@ -14,6 +14,7 @@
     ["êjness@iana.org", "valid"],
     ["ñoñó1234@iana.org", "valid"],
     ["ñoñó1234@something.com", "valid"],
+    ["\ud801\udc37\ud852\udf62@iana.org", "valid"],
     ["test@e.com", "dnsWarnNoRecord"],
     ["test@iana.a", "dnsWarnNoRecord"],
     ["test.test@iana.org", "valid"],
