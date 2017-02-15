@@ -48,6 +48,10 @@ const tldExpectations = [
     ['shouldbe@example.com', diag.valid]
 ];
 
+const noDNSExpectations = [
+    ['伊昭傑@郵件.商務', diag.valid],
+    ['ñoñó1234@ñomething.com', diag.valid]
+];
 
 describe('validate()', () => {
 
@@ -207,6 +211,23 @@ describe('validate()', () => {
         });
     });
 
+    noDNSExpectations.forEach((obj, i) => {
+
+        const email = obj[0];
+        const result = obj[1];
+        it('should handle noDNS test ' + (i + 1), (done) => {
+
+            Isemail.validate(email, {
+                errorLevel: 0,
+                checkDNS: false
+            }, (res) => {
+
+                expect(res).to.equal(result);
+                done();
+            });
+        });
+    });
+
     it('should handle domain atom test 1', (done) => {
 
         expect(Isemail.validate('shouldbe@invalid', {
@@ -225,5 +246,26 @@ describe('validate()', () => {
         })).to.equal(diag.valid);
 
         done();
+    });
+});
+
+describe('normalize', () => {
+
+    const normalizeExpectations = [
+        ['man\u0303ana.com', 'mañana.com']
+    ];
+
+    normalizeExpectations.forEach((normalizingPair) => {
+
+        it('should properly normalize international characters', (done) => {
+
+            const normal = normalizingPair[1];
+            const email = normalizingPair[0];
+            const normalizedEmail = Isemail.normalize(email);
+
+            expect(email).to.not.equal(normal);
+            expect(normalizedEmail).to.equal(normal);
+            done();
+        });
     });
 });
