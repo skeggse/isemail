@@ -48,28 +48,20 @@ const tldExpectations = [
     ['shouldbe@example.com', diag.valid]
 ];
 
-const noDNSExpectations = [
-    ['伊昭傑@郵件.商務', diag.valid],
-    ['ñoñó1234@ñomething.com', diag.valid]
-];
-
 describe('validate()', () => {
 
     it('should check options.tldWhitelist', (done) => {
 
         expect(Isemail.validate('person@top', {
-            tldWhitelist: 'top',
-            checkDNS: false
+            tldWhitelist: 'top'
         })).to.equal(true);
 
         expect(Isemail.validate('person@top', {
-            tldWhitelist: ['com'],
-            checkDNS: false
+            tldWhitelist: ['com']
         })).to.equal(false);
 
         expect(Isemail.validate('person@top', {
-            tldWhitelist: { com: true },
-            checkDNS: false
+            tldWhitelist: { com: true }
         })).to.equal(false);
 
         expect(() => {
@@ -84,18 +76,15 @@ describe('validate()', () => {
     it('should check options.tldBlacklist', (done) => {
 
         expect(Isemail.validate('person@top', {
-            tldBlacklist: 'top',
-            checkDNS: false
+            tldBlacklist: 'top'
         })).to.equal(false);
 
         expect(Isemail.validate('person@top', {
-            tldBlacklist: ['com'],
-            checkDNS: false
+            tldBlacklist: ['com']
         })).to.equal(true);
 
         expect(Isemail.validate('person@top', {
-            tldBlacklist: { com: true },
-            checkDNS: false
+            tldBlacklist: { com: true }
         })).to.equal(true);
 
         expect(() => {
@@ -137,17 +126,6 @@ describe('validate()', () => {
         done();
     });
 
-    it('should ensure callback provided with checkDNS', (done) => {
-
-        expect(() => {
-
-            Isemail.validate('person@top', {
-                checkDNS: true
-            });
-        }).to.throw(/(?=.*\bcheckDNS\b)(?=.*\bcallback\b)/);
-        done();
-    });
-
     it('should handle omitted options', (done) => {
 
         expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
@@ -170,8 +148,7 @@ describe('validate()', () => {
         it('should handle test ' + (i + 1), (done) => {
 
             Isemail.validate(email, {
-                errorLevel: 0,
-                checkDNS: true
+                errorLevel: 0
             }, (res) => {
 
                 expect(res).to.equal(result);
@@ -208,23 +185,6 @@ describe('validate()', () => {
             })).to.equal(result);
 
             done();
-        });
-    });
-
-    noDNSExpectations.forEach((obj, i) => {
-
-        const email = obj[0];
-        const result = obj[1];
-        it('should handle noDNS test ' + (i + 1), (done) => {
-
-            Isemail.validate(email, {
-                errorLevel: 0,
-                checkDNS: false
-            }, (res) => {
-
-                expect(res).to.equal(result);
-                done();
-            });
         });
     });
 
