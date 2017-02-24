@@ -17,9 +17,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "dependencies": {
-    "punycode": "2.1.x"
-  },
+  "dependencies": {},
   "devDependencies": {
     "code": "3.x.x",
     "lab": "10.x.x",
