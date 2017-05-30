@@ -17,12 +17,13 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "punycode": "2.x.x"
+  },
   "devDependencies": {
     "code": "3.x.x",
     "lab": "10.x.x",
-    "proxyquire": "1.x.x",
-    "punycode": "2.x.x"
+    "proxyquire": "1.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L -m 5000",
