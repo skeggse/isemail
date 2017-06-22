@@ -36,7 +36,7 @@ API
 validate(email, [options], [callback])
 --------------------------------------
 
-Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel` and `checkDNS`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. If `validate()` is not asked to check for the existence of the domain (`checkDNS`), it will also synchronously return the result of the operation.
+Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. `validate()` will synchronously return the result of the operation if no callback is provided.
 
 Use `errorLevel` to specify the type of result for `validate()`. Passing a `false` literal will result in a true or false boolean indicating whether the email address is sufficiently defined for use in sending an email. Passing a `true` literal will result in a more granular numeric status, with zero being a perfectly valid email address. Passing a number will return `0` if the numeric status is below the `errorLevel` and the numeric status otherwise.
 
@@ -46,7 +46,7 @@ The `tldWhitelist` option can be either an object lookup table or an array of va
 
 Only one of `tldBlacklist` and `tldWhitelist` will be consulted for TLD validity.
 
-The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses. To better handle fringe cases like the `io` TLD, use the `checkDNS` parameter, which will only allow email addresses for domains which have an MX record.
+The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses.
 
 ### Examples
 
@@ -61,11 +61,8 @@ true
 > Isemail.validate('test@iana.org', log);
 result true
 true
-> Isemail.validate('test@iana.org', {checkDNS: true});
+> Isemail.validate('test@iana.org');
 undefined
-> Isemail.validate('test@iana.org', {checkDNS: true}, log);
-undefined
-result true
 > Isemail.validate('test@iana.org', {errorLevel: true});
 0
 > Isemail.validate('test@iana.org', {errorLevel: true}, log);
@@ -73,13 +70,13 @@ result 0
 0
 > Isemail.validate('test@e.com');
 true
-> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: true}, log);
+> Isemail.validate('test@e.com', {errorLevel: true}, log);
 undefined
 result 6
-> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: 7}, log);
+> Isemail.validate('test@e.com', {errorLevel: 7}, log);
 undefined
 result 0
-> Isemail.validate('test@e.com', {checkDNS: true, errorLevel: 6}, log);
+> Isemail.validate('test@e.com', {errorLevel: 6}, log);
 undefined
 result 6
 ```

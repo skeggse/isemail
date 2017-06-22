@@ -18,7 +18,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "punycode": "2.1.x"
+    "punycode": "2.x.x"
   },
   "devDependencies": {
     "code": "3.x.x",
