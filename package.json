@@ -1,5 +1,5 @@
 {
-  "name": "isemail",
+  "name": "@anchorchat/isemail",
   "description": "Validate an email address according to RFCs 5321, 5322, and others",
   "version": "3.0.0",
   "repository": "git://github.com/anchorchat/isemail",
