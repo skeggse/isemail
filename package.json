@@ -2,7 +2,7 @@
   "name": "isemail",
   "description": "Validate an email address according to RFCs 5321, 5322, and others",
   "version": "3.0.0",
-  "repository": "git://github.com/hapijs/isemail",
+  "repository": "git://github.com/anchorchat/isemail",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "jsnext:main": "./es/index.js",
