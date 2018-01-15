@@ -1,3 +1,5 @@
 /coverage.html
 /coverage.lcov
 /node_modules
+/es
+/lib
