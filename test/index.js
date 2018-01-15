@@ -4,7 +4,7 @@
 
 const Lab = require('lab');
 const Code = require('code');
-const Isemail = require('..');
+const Isemail = require('../src/index.js');
 const Tests = require('./tests.json');
 
 
