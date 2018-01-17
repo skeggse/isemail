@@ -96,21 +96,39 @@ describe('validate()', () => {
         done();
     });
 
-    it('should check options.allowUnicode', (done) => {
+    describe('with options.allowUnicode', () => {
 
-        expect(Isemail.validate('pure@ascii.org', {
-            allowUnicode: false
-        })).to.equal(true);
+        it('should accept a pure ASCII email address when false', (done) => {
 
-        expect(Isemail.validate('üñïçø∂é@example.com', {
-            allowUnicode: false
-        })).to.equal(false);
+            expect(Isemail.validate('pure@ascii.org', {
+                allowUnicode: false
+            })).to.equal(true);
+            done();
+        });
 
-        expect(Isemail.validate('unicode@exãmple.com', {
-            allowUnicode: false
-        })).to.equal(false);
+        it('should reject email addresses containing unicode when false', (done) => {
 
-        done();
+            expect(Isemail.validate('üñïçø∂é@example.com', {
+                allowUnicode: false
+            })).to.equal(false);
+
+            expect(Isemail.validate('unicode@exãmple.com', {
+                allowUnicode: false
+            })).to.equal(false);
+            done();
+        });
+
+        describe('in combination with errorLevel', () => {
+
+            it('should return the right diagnosis when allowUnicode is false', (done) => {
+
+                expect(Isemail.validate('üñïçø∂é@example.com', {
+                    allowUnicode: false,
+                    errorLevel: 8
+                })).to.equal(25);
+                done();
+            });
+        });
     });
 
     it('should check options.minDomainAtoms', (done) => {
