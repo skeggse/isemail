@@ -99,7 +99,7 @@ describe('validate()', () => {
     it('should check options.allowUnicode', (done) => {
 
         expect(Isemail.validate('pure@ascii.org', {
-            allowUnicode: false 
+            allowUnicode: false
         })).to.equal(true);
 
         expect(Isemail.validate('üñïçø∂é@example.com', {
