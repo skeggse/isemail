@@ -96,6 +96,23 @@ describe('validate()', () => {
         done();
     });
 
+    it('should check options.allowUnicode', (done) => {
+
+        expect(Isemail.validate('pure@ascii.org', {
+            allowUnicode: false 
+        })).to.equal(true);
+
+        expect(Isemail.validate('üñïçø∂é@example.com', {
+            allowUnicode: false
+        })).to.equal(false);
+
+        expect(Isemail.validate('unicode@exãmple.com', {
+            allowUnicode: false
+        })).to.equal(false);
+
+        done();
+    });
+
     it('should check options.minDomainAtoms', (done) => {
 
         expect(() => {
