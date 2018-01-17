@@ -44,6 +44,8 @@ The `tldBlacklist` option can be either an object lookup table or an array of in
 
 The `tldWhitelist` option can be either an object lookup table or an array of valid top-level domains. If the email address has a top-level domain that is not in the whitelist, the email will be marked as invalid.
 
+The `allowUnicode` option governs whether non-ASCII characters are allowed. Defaults to `true` per RFC 6530.
+
 Only one of `tldBlacklist` and `tldWhitelist` will be consulted for TLD validity.
 
 The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses.
