@@ -2,6 +2,7 @@
 
 // Load modules
 
+const unorm = require('unorm');
 const Punycode = require('punycode');
 
 // Declare internals
@@ -168,7 +169,7 @@ internals.nulNormalize = function (email) {
     let emailPieces = email.split('\u0000');
     emailPieces = emailPieces.map((string) => {
 
-        return string.normalize('NFC');
+        return unorm.nfc(string);
     });
 
     return emailPieces.join('\u0000');
@@ -1329,5 +1330,5 @@ exports.normalize = internals.normalize = function (email) {
     // $lab:coverage:on$
 
 
-    return email.normalize('NFC');
+    return unorm.nfc(email);
 };
