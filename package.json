@@ -25,7 +25,8 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "punycode": "2.x.x"
+    "punycode": "2.x.x",
+    "unorm": "^1.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
