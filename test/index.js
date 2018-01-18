@@ -50,7 +50,7 @@ const tldExpectations = [
 
 describe('validate()', () => {
 
-    it('should check options.tldWhitelist', (done) => {
+    it('should check options.tldWhitelist', () => {
 
         expect(Isemail.validate('person@top', {
             tldWhitelist: 'top'
@@ -70,10 +70,9 @@ describe('validate()', () => {
                 tldWhitelist: 77
             });
         }).to.throw(/tldWhitelist/);
-        done();
     });
 
-    it('should check options.tldBlacklist', (done) => {
+    it('should check options.tldBlacklist', () => {
 
         expect(Isemail.validate('person@top', {
             tldBlacklist: 'top'
@@ -93,20 +92,18 @@ describe('validate()', () => {
                 tldBlacklist: 77
             });
         }).to.throw(/tldBlacklist/);
-        done();
     });
 
     describe('with options.allowUnicode', () => {
 
-        it('should accept a pure ASCII email address when false', (done) => {
+        it('should accept a pure ASCII email address when false', () => {
 
             expect(Isemail.validate('pure@ascii.org', {
                 allowUnicode: false
             })).to.equal(true);
-            done();
         });
 
-        it('should reject email addresses containing unicode when false', (done) => {
+        it('should reject email addresses containing unicode when false', () => {
 
             expect(Isemail.validate('üñïçø∂é@example.com', {
                 allowUnicode: false
@@ -115,23 +112,21 @@ describe('validate()', () => {
             expect(Isemail.validate('unicode@exãmple.com', {
                 allowUnicode: false
             })).to.equal(false);
-            done();
         });
 
         describe('in combination with errorLevel', () => {
 
-            it('should return the right diagnosis when allowUnicode is false', (done) => {
+            it('should return the right diagnosis when allowUnicode is false', () => {
 
                 expect(Isemail.validate('üñïçø∂é@example.com', {
                     allowUnicode: false,
                     errorLevel: 8
                 })).to.equal(25);
-                done();
             });
         });
     });
 
-    it('should check options.minDomainAtoms', (done) => {
+    it('should check options.minDomainAtoms', () => {
 
         expect(() => {
 
@@ -146,10 +141,9 @@ describe('validate()', () => {
                 minDomainAtoms: 1.5
             });
         }).to.throw(/minDomainAtoms/);
-        done();
     });
 
-    it('should use options.errorLevel', (done) => {
+    it('should use options.errorLevel', () => {
 
         expect(Isemail.validate('person@123', {
             errorLevel: diag.rfc5321TLDNumeric + 1
@@ -158,21 +152,18 @@ describe('validate()', () => {
         expect(Isemail.validate('person@123', {
             errorLevel: diag.rfc5321TLDNumeric
         })).to.equal(diag.rfc5321TLDNumeric);
-        done();
     });
 
-    it('should handle omitted options', (done) => {
+    it('should handle omitted options', () => {
 
         expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
-        done();
     });
 
-    it('should handle omitted options with callback', (done) => {
+    it('should handle omitted options with callback', () => {
 
         Isemail.validate(expectations[0][0], (res) => {
 
             expect(res).to.equal(expectations[0][1] < internals.defaultThreshold);
-            done();
         });
     });
 
@@ -180,14 +171,13 @@ describe('validate()', () => {
 
         const email = obj[0];
         const result = obj[1];
-        it('should handle test ' + (i + 1), (done) => {
+        it('should handle test ' + (i + 1), () => {
 
             Isemail.validate(email, {
                 errorLevel: 0
             }, (res) => {
 
                 expect(res).to.equal(result);
-                done();
             });
         });
     });
@@ -197,7 +187,7 @@ describe('validate()', () => {
         const email = obj[0];
         const result = obj[1];
 
-        it('should handle tld test ' + (i + 1), (done) => {
+        it('should handle tld test ' + (i + 1), () => {
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
@@ -219,28 +209,23 @@ describe('validate()', () => {
                 tldBlacklist: ['invalid']
             })).to.equal(result);
 
-            done();
         });
     });
 
-    it('should handle domain atom test 1', (done) => {
+    it('should handle domain atom test 1', () => {
 
         expect(Isemail.validate('shouldbe@invalid', {
             errorLevel: 0,
             minDomainAtoms: 2
         })).to.equal(diag.errDomainTooShort);
-
-        done();
     });
 
-    it('should handle domain atom test 2', (done) => {
+    it('should handle domain atom test 2', () => {
 
         expect(Isemail.validate('valid@example.com', {
             errorLevel: 0,
             minDomainAtoms: 2
         })).to.equal(diag.valid);
-
-        done();
     });
 });
 
@@ -252,7 +237,7 @@ describe('normalize', () => {
 
     normalizeExpectations.forEach((normalizingPair) => {
 
-        it('should properly normalize international characters', (done) => {
+        it('should properly normalize international characters', () => {
 
             const normal = normalizingPair[1];
             const email = normalizingPair[0];
@@ -260,7 +245,6 @@ describe('normalize', () => {
 
             expect(email).to.not.equal(normal);
             expect(normalizedEmail).to.equal(normal);
-            done();
         });
     });
 });
