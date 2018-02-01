@@ -159,26 +159,16 @@ describe('validate()', () => {
         expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
     });
 
-    it('should handle omitted options with callback', () => {
-
-        Isemail.validate(expectations[0][0], (res) => {
-
-            expect(res).to.equal(expectations[0][1] < internals.defaultThreshold);
-        });
-    });
-
     expectations.forEach((obj, i) => {
 
         const email = obj[0];
         const result = obj[1];
         it('should handle test ' + (i + 1), () => {
 
-            Isemail.validate(email, {
+            const res = Isemail.validate(email, {
                 errorLevel: 0
-            }, (res) => {
-
-                expect(res).to.equal(result);
             });
+            expect(res).to.equal(result);
         });
     });
 
