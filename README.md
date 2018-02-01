@@ -33,10 +33,10 @@ _remember to_ `npm install` to get the development dependencies!
 API
 ===
 
-validate(email, [options], [callback])
---------------------------------------
+validate(email, [options])
+--------------------------
 
-Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object and a `callback` function. Options may include `errorLevel`. The `callback` function will always be called if specified, and the result of the operation supplied as the only parameter to the callback function. `validate()` will synchronously return the result of the operation if no callback is provided.
+Determines whether the `email` is valid or not, for various definitions thereof. Optionally accepts an `options` object. Options may include `errorLevel`.
 
 Use `errorLevel` to specify the type of result for `validate()`. Passing a `false` literal will result in a true or false boolean indicating whether the email address is sufficiently defined for use in sending an email. Passing a `true` literal will result in a more granular numeric status, with zero being a perfectly valid email address. Passing a number will return `0` if the numeric status is below the `errorLevel` and the numeric status otherwise.
 
@@ -50,37 +50,24 @@ Only one of `tldBlacklist` and `tldWhitelist` will be consulted for TLD validity
 
 The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses.
 
+As of `3.1.1`, the `callback` parameter is deprecated, and will be removed in `4.0.0`.
+
 ### Examples
 
 ```js
 $ node
 > var Isemail = require('isemail');
 undefined
-> var log = console.log.bind(console, 'result');
-undefined
 > Isemail.validate('test@iana.org');
 true
-> Isemail.validate('test@iana.org', log);
-result true
-true
-> Isemail.validate('test@iana.org');
-undefined
 > Isemail.validate('test@iana.org', {errorLevel: true});
 0
-> Isemail.validate('test@iana.org', {errorLevel: true}, log);
-result 0
+> Isemail.validate('test@e.com', {errorLevel: true});
+6
+> Isemail.validate('test@e.com', {errorLevel: 7});
 0
-> Isemail.validate('test@e.com');
-true
-> Isemail.validate('test@e.com', {errorLevel: true}, log);
-undefined
-result 6
-> Isemail.validate('test@e.com', {errorLevel: 7}, log);
-undefined
-result 0
-> Isemail.validate('test@e.com', {errorLevel: 6}, log);
-undefined
-result 6
+> Isemail.validate('test@e.com', {errorLevel: 6});
+6
 ```
 
 <sup name="footnote-1">&#91;1&#93;</sup>: if this badge indicates the build is passing, then isemail has 100% code coverage.
