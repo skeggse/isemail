@@ -60,8 +60,6 @@ $ node
 undefined
 > Isemail.validate('test@iana.org');
 true
-> Isemail.validate('test@iana.org');
-undefined
 > Isemail.validate('test@iana.org', {errorLevel: true});
 0
 > Isemail.validate('test@e.com', {errorLevel: true});
