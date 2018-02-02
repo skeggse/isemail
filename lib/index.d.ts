@@ -21,13 +21,9 @@ interface Validator {
   /**
    * Check that an email address conforms to RFCs 5321, 5322, 6530 and others.
    *
-   * The callback function will always be called
-   * with the result of the operation.
-   *
-   * ```
+   *  ```
    * import * as IsEmail from "isemail";
    *
-   * const log = result => console.log(`Result: ${result}`);
    * IsEmail.validate("test@e.com");
    * // => true
    * ```
@@ -36,9 +32,6 @@ interface Validator {
 
   /**
    * Check that an email address conforms to RFCs 5321, 5322, 6530 and others.
-   *
-   * The callback function will always be called
-   * with the result of the operation.
    *
    * ```
    * import * as IsEmail from "isemail";
@@ -51,9 +44,6 @@ interface Validator {
 
   /**
    * Check that an email address conforms to RFCs 5321, 5322, 6530 and others.
-   *
-   * The callback function will always be called
-   * with the result of the operation.
    *
    * ```
    * import * as IsEmail from "isemail";
