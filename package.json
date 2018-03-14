@@ -1,10 +1,10 @@
 {
-  "name": "isemail",
+  "name": "isemail-es5",
   "description": "Validate an email address according to RFCs 5321, 5322, and others",
   "version": "3.1.1",
-  "repository": "git://github.com/hapijs/isemail",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "repository": "git://github.com/jaebradley/isemail-es5",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "keywords": [
     "isemail",
     "validation",
@@ -22,10 +22,15 @@
     "punycode": "2.x.x"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "code": "3.x.x",
+    "es-check": "^2.0.2",
     "lab": "15.x.x"
   },
   "scripts": {
+    "is-es5": "es-check build/index.js",
+    "compile": "babel -d build/ lib/ --ignore node_modules,test",
     "test": "lab -a code -t 100 -L -m 5000",
     "test-cov-html": "lab -a code -r html -o coverage.html -m 5000"
   },
