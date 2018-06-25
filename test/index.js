@@ -45,7 +45,8 @@ expectations.push(['(\0)test@example.com', diag.errExpectingCTEXT]);
 
 const tldExpectations = [
     ['shouldbe@invalid', diag.errUnknownTLD],
-    ['shouldbe@example.com', diag.valid]
+    ['shouldbe@example.com', diag.valid],
+    ['shouldbe@example.COM', diag.valid]
 ];
 
 describe('validate()', () => {
