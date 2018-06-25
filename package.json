@@ -25,8 +25,8 @@
     "punycode": "2.x.x"
   },
   "devDependencies": {
-    "code": "3.x.x",
-    "lab": "15.x.x"
+    "code": "^5.2.0",
+    "lab": "^15.5.0"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L -m 5000",
