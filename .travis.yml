@@ -6,3 +6,8 @@ node_js:
   - "node"
 
 sudo: false
+
+# don't double-run PRs as branch builds
+branches:
+  only:
+    - master
