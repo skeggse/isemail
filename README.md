@@ -70,6 +70,12 @@ true
 0
 > Isemail.validate('test@iana.123', {errorLevel: 10});
 10
+> Isemail.validate('test@iana&12');
+false
+> Isemail.validate('test@iana&12', {errorLevel: true});
+65
+> Isemail.validate('test@', {errorLevel: true});
+131
 ```
 
 <sup name="footnote-1">&#91;1&#93;</sup>: if this badge indicates the build is passing, then isemail has 100% code coverage.
