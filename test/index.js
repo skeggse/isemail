@@ -48,7 +48,9 @@ const asciiTldExpectations = [
     ['shouldbe@invalid', diag.errUnknownTLD],
     ['shouldbe@INVALID', diag.errUnknownTLD],
     ['shouldbe@example.com', diag.valid],
-    ['shouldbe@example.COM', diag.valid]
+    ['shouldbe@example.COM', diag.valid],
+    // Regression test for https://github.com/hapijs/isemail/issues/170.
+    ['apple-touch-icon-60x60@2x.png', diag.errUnknownTLD]
 ];
 
 const unicodeTldExpectations = [
@@ -219,12 +221,12 @@ describe('validate()', () => {
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
-                tldBlacklist: { invalid: true }
+                tldBlacklist: { invalid: true, png: true }
             })).to.equal(result);
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
-                tldBlacklist: ['invalid']
+                tldBlacklist: ['invalid', 'png']
             })).to.equal(result);
 
         });
