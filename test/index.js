@@ -43,9 +43,31 @@ expectations.push(['test@[\0', diag.errExpectingDTEXT]);
 expectations.push(['(\0)test@example.com', diag.errExpectingCTEXT]);
 
 
-const tldExpectations = [
+const asciiTldExpectations = [
+    // Test ASCII-only domains.
     ['shouldbe@invalid', diag.errUnknownTLD],
-    ['shouldbe@example.com', diag.valid]
+    ['shouldbe@INVALID', diag.errUnknownTLD],
+    ['shouldbe@example.com', diag.valid],
+    ['shouldbe@example.COM', diag.valid],
+    // Regression test for https://github.com/hapijs/isemail/issues/170.
+    ['apple-touch-icon-60x60@2x.png', diag.errUnknownTLD]
+];
+
+const unicodeTldExpectations = [
+    // Test non-latin domains that have no (current) case-change support in unicode.
+    ['shouldbe@XN--UNUP4Y', diag.valid],
+    ['shouldbe@xn--unup4y', diag.valid],
+    ['shouldbe@\u6e38\u620f', diag.valid],
+    ['shouldbe@xn--tckwe', diag.errUnknownTLD],
+    ['shouldbe@XN--TCKWE', diag.errUnknownTLD],
+    ['shouldbe@\u30b3\u30e0', diag.errUnknownTLD],
+    // Test non-latin domains that have current case-change support in unicode.
+    ['shouldbe@verm\u00f6gensberatung', diag.valid],
+    ['shouldbe@xn--vermgensberatung-pwb', diag.valid],
+    ['shouldbe@XN--VERMGENSBERATUNG-PWB', diag.valid],
+    ['shouldbe@VERM\u00d6GENSBERATUNG', diag.errUnknownTLD],
+    ['shouldbe@xn--vermgensberatung-5gb', diag.errUnknownTLD],
+    ['shouldbe@XN--VERMGENSBERATUNG-5GB', diag.errUnknownTLD]
 ];
 
 describe('validate()', () => {
@@ -59,6 +81,14 @@ describe('validate()', () => {
         expect(Isemail.validate('person@top', {
             tldWhitelist: ['com']
         })).to.equal(false);
+
+        expect(Isemail.validate('person@top', {
+            tldWhitelist: new Set(['top'])
+        })).to.equal(true);
+
+        expect(Isemail.validate('person@top', {
+            tldWhitelist: new Map([['top', false]])
+        })).to.equal(true);
 
         expect(Isemail.validate('person@top', {
             tldWhitelist: { com: true }
@@ -172,7 +202,7 @@ describe('validate()', () => {
         });
     });
 
-    tldExpectations.forEach((obj, i) => {
+    asciiTldExpectations.forEach((obj, i) => {
 
         const email = obj[0];
         const result = obj[1];
@@ -191,14 +221,38 @@ describe('validate()', () => {
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
-                tldBlacklist: { invalid: true }
+                tldBlacklist: { invalid: true, png: true }
             })).to.equal(result);
 
             expect(Isemail.validate(email, {
                 errorLevel: 0,
-                tldBlacklist: ['invalid']
+                tldBlacklist: ['invalid', 'png']
             })).to.equal(result);
 
+        });
+    });
+
+    unicodeTldExpectations.forEach((obj, i) => {
+
+        const email = obj[0];
+        const result = obj[1];
+
+        it('should handle unicode tld test (' + email + ') ' + (i + 1), () => {
+
+            expect(Isemail.validate(email, {
+                errorLevel: 0,
+                tldWhitelist: ['xn--unup4y', 'xn--vermgensberatung-pwb']
+            })).to.equal(result);
+
+            expect(Isemail.validate(email, {
+                errorLevel: 0,
+                tldWhitelist: ['XN--UNUP4Y', 'XN--VERMGENSBERATUNG-PWB']
+            })).to.equal(result);
+
+            expect(Isemail.validate(email, {
+                errorLevel: 0,
+                tldWhitelist: ['\u6e38\u620f', 'verm\u00f6gensberatung']
+            })).to.equal(result);
         });
     });
 
