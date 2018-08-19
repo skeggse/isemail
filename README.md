@@ -48,7 +48,7 @@ The `allowUnicode` option governs whether non-ASCII characters are allowed. Defa
 
 Only one of `tldBlacklist` and `tldWhitelist` will be consulted for TLD validity.
 
-The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `io`, directly support email addresses.
+The `minDomainAtoms` option is an optional positive integer that specifies the minimum number of domain atoms that must be included for the email address to be considered valid. Be careful with the option, as some top-level domains, like `ai`, directly support email addresses. An atom describes a domain name unit: `ai` is a top-level domain atom, and `example.com` contains two domain atoms: `example` and `com`.
 
 As of `3.1.1`, the `callback` parameter is deprecated, and will be removed in `4.0.0`.
 
