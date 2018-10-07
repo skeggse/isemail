@@ -72,6 +72,16 @@ const unicodeTldExpectations = [
 
 describe('validate()', () => {
 
+    it('should reject non-strings', () => {
+
+        expect(() => Isemail.validate()).to.throw(TypeError);
+        expect(() => Isemail.validate(NaN)).to.throw(TypeError);
+        // This should throw even though it's a representation of a string.
+        // Sneak around lab's new primtive rule by assigning String to a local.
+        const Str = String;
+        expect(() => Isemail.validate(new Str('valid@hapijs.com'))).to.throw(TypeError);
+    });
+
     it('should check options.tldWhitelist', () => {
 
         expect(Isemail.validate('person@top', {
