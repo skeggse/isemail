@@ -43,7 +43,7 @@
     ["abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmno", "rfc5322TooLong"],
     ["abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.\ud83d\ude06\ud83d\ude06\ud83d\ude06\ud83d\ude06", "rfc5322TooLong"],
     ["abcdef@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef.hijklmnopqrstuv", "rfc5322TooLong"],
-    ["abcdef@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghi.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd\ud83d\ude06", "rfc5322TooLong"],
+    ["abcdef@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghi.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd\ud83d\ude06", "rfc5322DomainTooLong"],
     ["a@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijkl.hijk", "rfc5322DomainTooLong"],
     ["a@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg.abcdefghijkl.\ud83d\ude06", "rfc5322DomainTooLong"],
     ["\"\r", "errCRNoLF"],
@@ -188,8 +188,10 @@
     ["test@iana(comment)iana.org", "errATEXTAfterCFWS"],
     ["(comment\r\n comment)test@iana.org", "cfwsFWS"],
     ["test@org", "valid"],
-    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.ñoñó郵件ñoñoñó郵件ñoñó.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.oñó郵件ñoñó郵件ñoñó郵件.商務", "valid"],
+    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件.商務", "valid"],
+    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件ñoñó郵.商務", "rfc5322TooLong"],
+    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.oñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322DomainTooLong"],
     ["test@ñoñoñó郵件\ud83d\ude06ñoñ.oñó郵件\uC138ñoñ.oñó郵件\u0644\u4EEC\u010Dñoñoñó郵件\u05DCño.ñoñó郵件\u092F\u672Cñoñoñó郵件\uC138añoñ.oñó郵件\ud83d\ude06bc\uC138郵\ud83d\ude06ño.ñoñó郵件ñoñoñó郵件\ud83d\ude06ñoñoñó郵件\uC138ñoñ.oñó郵件\u0644\u4EECñoñoñó.郵件\ud83d\ude06ñoñoñó郵件郵\uC138ñoñoñó郵件\u0644\u4EECñoñoñó郵件.\ud83d\ude06ñoñoñó郵件郵\uC138\u0644\u4EEC.郵件\ud83d\ude06ñoñoñó郵.件郵\uC138\u4EEC\ud83d\ude06ñoñoñó件郵\uC138ñoñoñó郵件", "rfc5322DomainTooLong"],
     ["test@ñoñó郵件ñoñó郵件ñoñó郵件ñoñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322LabelTooLong"],
-    ["ud83d\ude06ñoñó郵件ñoñó郵件ñoñó\ud83d\ude06郵件ñoñoñó郵@\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.郵件ñoñó郵件ñoñó\ud83d\ude06.郵件ñoñó郵件ñoñó.郵件ñoñó郵件.ñoñó郵件ñoñó.郵件ñoñó郵件.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06商務.郵件ñoñó郵件ñoñó郵件.\ud83d\ude06商務.\ud83d\ude06商務.\ud83d\ude06商務", "rfc5322TooLong"]
+    ["ud83d\ude06ñoñó郵件ñoñó郵件ñoñó\ud83d\ude06郵件ñoñoñó郵@\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.郵件ñoñó郵件ñoñó\ud83d\ude06.郵件ñoñó郵件ñoñó.郵件ñoñó郵件.ñoñó郵件ñoñó.郵件ñoñó郵件.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06商務.郵件ñoñó郵件ñoñó郵件.\ud83d\ude06商務.\ud83d\ude06商務.\ud83d\ude06商務", "rfc5322DomainTooLong"]
 ]
