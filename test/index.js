@@ -199,6 +199,20 @@ describe('validate()', () => {
         expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
     });
 
+    it('should permit address literals with multiple required domain atoms', () => {
+
+        expect(Isemail.validate('joe@[IPv6:2a00:1450:4001:c02::1b]', {
+            minDomainAtoms: 2,
+            errorLevel: true
+        })).to.equal(diag.rfc5321AddressLiteral);
+
+        // Do not provide the same treatment to mixed domain parts.
+        expect(Isemail.validate('joe@[IPv6:2a00:1450:4001:c02::1b].com', {
+            minDomainAtoms: 3,
+            errorLevel: true
+        })).to.equal(diag.errDomainTooShort);
+    });
+
     expectations.forEach((obj, i) => {
 
         const email = obj[0];
