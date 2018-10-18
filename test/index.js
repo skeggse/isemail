@@ -194,6 +194,43 @@ describe('validate()', () => {
         })).to.equal(diag.rfc5321TLDNumeric);
     });
 
+    it('should ignore diagnoses in excludeDiagnoses', () => {
+
+        expect(() => {
+
+            Isemail.validate('person@123', { excludeDiagnoses: true });
+        }).to.throw(TypeError, /excludeDiagnoses/);
+
+        expect(() => {
+
+            Isemail.validate('person@123', {
+                excludeDiagnoses: {
+                    [diag.rfc5321TLDNumeric]: true
+                }
+            });
+        }).to.throw(TypeError, /excludeDiagnoses/);
+
+        expect(Isemail.validate('person@127.0.0.1', {
+            excludeDiagnoses: [diag.rfc5321AddressLiteral],
+            errorLevel: diag.rfc5321TLDNumeric
+        })).to.equal(diag.rfc5321TLDNumeric);
+
+        expect(Isemail.validate('person@[127.0.0.1]', {
+            excludeDiagnoses: [diag.rfc5321AddressLiteral],
+            errorLevel: diag.rfc5321TLDNumeric
+        })).to.equal(diag.valid);
+
+        expect(Isemail.validate('person@[127.0.0.1]', {
+            excludeDiagnoses: new Set([diag.rfc5321AddressLiteral]),
+            errorLevel: diag.rfc5321TLDNumeric
+        })).to.equal(diag.valid);
+
+        expect(Isemail.validate('person@[127.0.0.1]', {
+            excludeDiagnoses: [],
+            errorLevel: diag.rfc5321TLDNumeric
+        })).to.equal(diag.rfc5321AddressLiteral);
+    });
+
     it('should handle omitted options', () => {
 
         expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
