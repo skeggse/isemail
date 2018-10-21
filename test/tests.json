@@ -127,7 +127,7 @@
     ["test@iana.org(comment\\)", "errUnclosedComment"],
     ["test@iana.org(comment\\", "errBackslashEnd"],
     ["test@[RFC-5322-domain-literal]", "rfc5322DomainLiteral"],
-    ["test@[RFC-5322-郵件ñó-domain-literal]", "rfc5322DomainLiteral"],
+    ["test@[RFC-5322-郵件ñó-domain-literal]", "errExpectingDTEXT"],
     ["test@[RFC-5322]-domain-literal]", "errATEXTAfterDomainLiteral"],
     ["test@[RFC-5322].domain-literal]", "errDotAfterDomainLiteral"],
     ["test@[RFC-5322-[domain-literal]", "errExpectingDTEXT"],
