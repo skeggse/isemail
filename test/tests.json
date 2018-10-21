@@ -136,6 +136,7 @@
     ["test@[RFC-5322-\\\u0007-domain-literal]", "rfc5322DomainLiteralOBSDText"],
     ["test@[RFC-5322-\\\t-domain-literal]", "rfc5322DomainLiteralOBSDText"],
     ["test@[RFC-5322-\\]-domain-literal]", "rfc5322DomainLiteralOBSDText"],
+    ["test@[RFC-5322-\\郵-no-domain-literal]", "errExpectingQPair"],
     ["test@[RFC-5322--domain-literal]", "rfc5322DomainLiteralOBSDText"],
     ["test@[RFC-5322-domain-literal\\]", "errUnclosedDomainLiteral"],
     ["test@[RFC-5322-domain-literal\\", "errBackslashEnd"],
@@ -197,10 +198,15 @@
     ["test@iana(comment)iana.org", "errATEXTAfterCFWS"],
     ["(comment\r\n comment)test@iana.org", "cfwsFWS"],
     ["test@org", "valid"],
-    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件.商務", "valid"],
-    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件ñoñó郵.商務", "rfc5322TooLong"],
-    ["test@\uD800\uD800ñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.oñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322DomainTooLong"],
-    ["test@ñoñoñó郵件\ud83d\ude06ñoñ.oñó郵件\uC138ñoñ.oñó郵件\u0644\u4EEC\u010Dñoñoñó郵件\u05DCño.ñoñó郵件\u092F\u672Cñoñoñó郵件\uC138añoñ.oñó郵件\ud83d\ude06bc\uC138郵\ud83d\ude06ño.ñoñó郵件ñoñoñó郵件\ud83d\ude06ñoñoñó郵件\uC138ñoñ.oñó郵件\u0644\u4EECñoñoñó.郵件\ud83d\ude06ñoñoñó郵件郵\uC138ñoñoñó郵件\u0644\u4EECñoñoñó郵件.\ud83d\ude06ñoñoñó郵件郵\uC138\u0644\u4EEC.郵件\ud83d\ude06ñoñoñó郵.件郵\uC138\u4EEC\ud83d\ude06ñoñoñó件郵\uC138ñoñoñó郵件", "rfc5322DomainTooLong"],
+    ["test\ud800@invalid", "errMalformedUnicode"],
+    ["\"\ud800\"@invalid", "errMalformedUnicode"],
+    ["\"\\\ud800\"@invalid", "errMalformedUnicode"],
+    ["(\ud800)thing@invalid", "cfwsComment"],
+    ["\"\\\ud800\"@invalid", "errMalformedUnicode"],
+    ["test@\ud800\udfffñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件.商務", "valid"],
+    ["test@\ud800\udfffñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.noñó郵件ñoñó郵.商務", "rfc5322TooLong"],
+    ["test@\ud800\udfffñoñó郵件ñoñó郵件.郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.ñoñó郵件ñoñó郵件.oñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322DomainTooLong"],
+    ["test@ñoñoñó郵件\ud83d\ude06ñoñ.oñó郵件\uc138ñoñ.oñó郵件\u0644\u4eec\u010dñoñoñó郵件\u05dcño.ñoñó郵件\u092f\u672cñoñoñó郵件\uc138añoñ.oñó郵件\ud83d\ude06bc\uc138郵\ud83d\ude06ño.ñoñó郵件ñoñoñó郵件\ud83d\ude06ñoñoñó郵件\uc138ñoñ.oñó郵件\u0644\u4eecñoñoñó.郵件\ud83d\ude06ñoñoñó郵件郵\uc138ñoñoñó郵件\u0644\u4eecñoñoñó郵件.\ud83d\ude06ñoñoñó郵件郵\uc138\u0644\u4eec.郵件\ud83d\ude06ñoñoñó郵.件郵\uc138\u4eec\ud83d\ude06ñoñoñó件郵\uc138ñoñoñó郵件", "rfc5322DomainTooLong"],
     ["test@ñoñó郵件ñoñó郵件ñoñó郵件ñoñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件ñoñó郵件.商務", "rfc5322LabelTooLong"],
-    ["ud83d\ude06ñoñó郵件ñoñó郵件ñoñó\ud83d\ude06郵件ñoñoñó郵@\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.郵件ñoñó郵件ñoñó\ud83d\ude06.郵件ñoñó郵件ñoñó.郵件ñoñó郵件.ñoñó郵件ñoñó.郵件ñoñó郵件.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06商務.郵件ñoñó郵件ñoñó郵件.\ud83d\ude06商務.\ud83d\ude06商務.\ud83d\ude06商務", "rfc5322DomainTooLong"]
+    ["\ud83d\ude06ñoñó郵件ñoñó郵件ñoñó\ud83d\ude06郵件ñoñoñó郵@\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.郵件ñoñó郵件ñoñó\ud83d\ude06.郵件ñoñó郵件ñoñó.郵件ñoñó郵件.ñoñó郵件ñoñó.郵件ñoñó郵件.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06郵件ñoñó郵件ñoñó.\ud83d\ude06商務.郵件ñoñó郵件ñoñó郵件.\ud83d\ude06商務.\ud83d\ude06商務.\ud83d\ude06商務", "rfc5322DomainTooLong"]
 ]
