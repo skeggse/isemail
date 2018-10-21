@@ -4,8 +4,12 @@
 
 const Lab = require('lab');
 const Code = require('code');
+
+const Diagnoses = require('../lib/diagnoses');
 const Isemail = require('..');
+const Parser = require('../lib/parser');
 const Tests = require('./tests.json');
+const Validation = require('../lib/validation');
 
 
 // declare internals
@@ -229,6 +233,21 @@ describe('validate()', () => {
             excludeDiagnoses: [],
             errorLevel: diag.rfc5321TLDNumeric
         })).to.equal(diag.rfc5321AddressLiteral);
+
+        expect(Isemail.validate('"person"@123', {
+            excludeDiagnoses: [diag.rfc5321QuotedString],
+            errorLevel: true
+        })).to.equal(diag.rfc5321TLDNumeric);
+
+        expect(Isemail.validate('"person"@abc(comment).123', {
+            excludeDiagnoses: [diag.cfwsComment],
+            errorLevel: true
+        })).to.equal(diag.rfc5321QuotedString);
+
+        expect(Isemail.validate('"person"@(yes)abc(comment).123', {
+            excludeDiagnoses: [diag.rfc5321TLDNumeric, diag.deprecatedCFWSNearAt],
+            errorLevel: true
+        })).to.equal(diag.cfwsComment);
     });
 
     it('should handle omitted options', () => {
@@ -244,10 +263,15 @@ describe('validate()', () => {
         })).to.equal(diag.rfc5321AddressLiteral);
 
         // Do not provide the same treatment to mixed domain parts.
-        expect(Isemail.validate('joe@[IPv6:2a00:1450:4001:c02::1b].com', {
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('joe@[IPv6:2a00:1450:4001:c02::1b].com', diagnoses);
+        Validation.optionsValidation(parser.parse(), diagnoses, {
             minDomainAtoms: 3,
             errorLevel: true
-        })).to.equal(diag.errDomainTooShort);
+        });
+
+        expect(diagnoses.hasDiagnosis(diag.errDomainTooShort)).to.equal(true);
+        expect(diagnoses.hasDiagnosis(diag.errDotAfterDomainLiteral)).to.equal(true);
     });
 
     expectations.forEach((obj, i) => {
@@ -317,20 +341,36 @@ describe('validate()', () => {
         });
     });
 
-    it('should handle domain atom test 1', () => {
+    it('should check domain atoms', () => {
+
+        expect(() => {
+
+            Isemail.validate('shouldbe@invalid', {
+                minDomainAtoms: true
+            });
+        }).to.throw(TypeError, /minDomainAtoms/);
+
+        expect(() => {
+
+            Isemail.validate('shouldbe@invalid', {
+                minDomainAtoms: 0.5
+            });
+        }).to.throw(TypeError, /minDomainAtoms/);
 
         expect(Isemail.validate('shouldbe@invalid', {
             errorLevel: 0,
             minDomainAtoms: 2
         })).to.equal(diag.errDomainTooShort);
-    });
-
-    it('should handle domain atom test 2', () => {
 
         expect(Isemail.validate('valid@example.com', {
             errorLevel: 0,
             minDomainAtoms: 2
         })).to.equal(diag.valid);
+
+        expect(Isemail.validate('valid@', {
+            errorLevel: 0,
+            minDomainAtoms: 2
+        })).to.equal(diag.errNoDomain);
     });
 });
 
@@ -351,5 +391,69 @@ describe('normalize', () => {
             expect(email).to.not.equal(normal);
             expect(normalizedEmail).to.equal(normal);
         });
+    });
+});
+
+describe('parser', () => {
+
+    it('should not downgrade from a quoted string by default', () => {
+
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('"human"@example.com', diagnoses);
+        const parse = parser.parse();
+
+        expect(parse.localParts).to.equal(['"human"']);
+        expect(parse.local).to.equal('"human"');
+    });
+
+    it('should optionally downgrade from a quoted string when none is necessary', () => {
+
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('"human"@example.com', diagnoses, {
+            normalizeUnnecessaryQuoted: true
+        });
+        const parse = parser.parse();
+
+        expect(parse.localParts).to.equal(['human']);
+        expect(parse.local).to.equal('human');
+    });
+});
+
+describe('validation', () => {
+
+    it('should report no domain and too short', () => {
+
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('invalid@', diagnoses);
+        Validation.optionsValidation(parser.parse(), diagnoses, {
+            minDomainAtoms: 1
+        });
+
+        expect(diagnoses.hasDiagnosis(diag.errDomainTooShort)).to.equal(true);
+        expect(diagnoses.hasDiagnosis(diag.errNoDomain)).to.equal(true);
+    });
+
+    it('should report no domain and an invalid TLD with a whitelist', () => {
+
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('invalid@', diagnoses);
+        Validation.optionsValidation(parser.parse(), diagnoses, {
+            tldWhitelist: ['com']
+        });
+
+        expect(diagnoses.hasDiagnosis(diag.errUnknownTLD)).to.equal(true);
+        expect(diagnoses.hasDiagnosis(diag.errNoDomain)).to.equal(true);
+    });
+
+    it('should report no domain but valid TLD with a blacklist', () => {
+
+        const diagnoses = new Diagnoses();
+        const parser = new Parser('invalid@', diagnoses);
+        Validation.optionsValidation(parser.parse(), diagnoses, {
+            tldBlacklist: ['com']
+        });
+
+        expect(diagnoses.hasDiagnosis(diag.errUnknownTLD)).to.equal(false);
+        expect(diagnoses.hasDiagnosis(diag.errNoDomain)).to.equal(true);
     });
 });
