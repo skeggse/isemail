@@ -4,9 +4,9 @@
   "version": "3.2.0",
   "repository": "git://github.com/hapijs/isemail",
   "files": [
-    "lib/"
+    "dist/"
   ],
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "types": "lib/index.d.ts",
   "keywords": [
     "isemail",
@@ -25,12 +25,26 @@
     "punycode": "2.x.x"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-flow-strip-types": "^7.2.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "code": "^5.2.0",
-    "lab": "^16.1.0"
+    "eslint": "^5.10.0",
+    "eslint-config-hapi": "^12.0.0",
+    "eslint-plugin-flowtype": "^3.2.1",
+    "eslint-plugin-hapi": "^4.1.0",
+    "flow-bin": "^0.92.1",
+    "lab": "^18.0.1"
   },
+  "testOutputWarning": "  WARNING: these line numbers may not be accurate.\n  Use npm run test-cov-html to get the full coverage report with correct line numbers.",
   "scripts": {
-    "test": "lab -a code -t 100 -L -m 5000",
-    "test-cov-html": "lab -a code -r html -o coverage.html -m 5000"
+    "dist": "rm -rf dist && mkdir dist && babel lib --out-dir dist",
+    "prepublishOnly": "npm run test && npm run dist",
+    "test": "node -e 'console.log(JSON.parse(process.env.npm_package_testOutputWarning));' && lab -a code -t 100 -L -m 5000 -T .lab.transform.js && flow",
+    "test-cov-html": "GEN_COV_HTML=1 lab -a code -r html -o coverage.html -m 5000 -T .lab.transform.js"
   },
   "license": "BSD-3-Clause"
 }

@@ -1,27 +1,42 @@
-'use strict';
+// @flow strict
 
 // Load modules
 
-const Lab = require('lab');
-const Code = require('code');
+import Lab from 'lab';
+import Code from 'code';
 
-const Diagnoses = require('../lib/diagnoses');
-const Isemail = require('..');
-const Parser = require('../lib/parser');
-const Tests = require('./tests.json');
-const Validation = require('../lib/validation');
+import Diagnoses from '../lib/diagnoses';
+import * as Isemail from '../lib/index';
+import Parser, { type ParsedAddress, type ParserOptions } from '../lib/parser';
+import Tests from './tests.json';
+import * as Validation from '../lib/validation';
 
 
 // declare internals
 
-const internals = {
-    defaultThreshold: 16
+const internals = {};
+
+
+internals.defaultThreshold = 16;
+
+
+internals.expectParse = function (email: string, options: ParserOptions | void): {| diagnoses: Diagnoses, parser: Parser, parse: ParsedAddress |} {
+
+    const diagnoses = new Diagnoses();
+    const parser = new Parser(email, diagnoses, options);
+    const parse = parser.parse();
+
+    if (!parse) {
+        throw new Error('expected a valid parse but did not identify the fundamental address components');
+    }
+
+    return { diagnoses, parser, parse };
 };
 
 
 // Test shortcuts
 
-const lab = exports.lab = Lab.script();
+export const lab = Lab.script();
 const describe = lab.describe;
 const it = lab.it;
 const expect = Code.expect;
@@ -30,6 +45,17 @@ const expect = Code.expect;
 // Diagnoses
 
 const diag = Isemail.validate.diagnoses;
+
+internals.findDiagnosisName = function (diagnosis: number) {
+
+    const [name] = Object.entries(diag).find(([, id]) => id === diagnosis) || [];
+    return name;
+};
+
+internals.formatDiagnosis = function (diagnosis: number) {
+
+    return `${diagnosis} (${internals.findDiagnosisName(diagnosis) || '<unknown>'})`;
+};
 
 
 // Expectations
@@ -78,39 +104,41 @@ describe('validate()', () => {
 
     it('should reject non-strings', () => {
 
-        expect(() => Isemail.validate()).to.throw(TypeError);
-        expect(() => Isemail.validate(NaN)).to.throw(TypeError);
+        const PermissiveIsemail: any = Isemail;
+        expect(() => PermissiveIsemail.validate()).to.throw(TypeError);
+        expect(() => PermissiveIsemail.validate(NaN)).to.throw(TypeError);
         // This should throw even though it's a representation of a string.
-        // Sneak around lab's new primtive rule by assigning String to a local.
+        // Sneak around lab's new primitive rule by assigning String to a local.
         const Str = String;
-        expect(() => Isemail.validate(new Str('valid@hapijs.com'))).to.throw(TypeError);
+        expect(() => PermissiveIsemail.validate(new Str('valid@hapijs.com'))).to.throw(TypeError);
     });
 
     it('should check options.tldWhitelist', () => {
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldWhitelist: 'top'
         })).to.equal(true);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldWhitelist: ['com']
         })).to.equal(false);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldWhitelist: new Set(['top'])
         })).to.equal(true);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldWhitelist: new Map([['top', false]])
         })).to.equal(true);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldWhitelist: { com: true }
         })).to.equal(false);
 
+        const PermissiveIsemail: any = Isemail;
         expect(() => {
 
-            Isemail.validate('', {
+            PermissiveIsemail.validate('', {
                 tldWhitelist: 77
             });
         }).to.throw(/tldWhitelist/);
@@ -118,21 +146,27 @@ describe('validate()', () => {
 
     it('should check options.tldBlacklist', () => {
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldBlacklist: 'top'
         })).to.equal(false);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldBlacklist: ['com']
         })).to.equal(true);
 
-        expect(Isemail.validate('person@top', {
+        expect(Isemail.isValid('person@top', {
             tldBlacklist: { com: true }
         })).to.equal(true);
 
+        expect(Isemail.isValid('person@top', {
+            // $FlowFixMe: Flow does not yet have full Symbol support.
+            tldBlacklist: ['com'][Symbol.iterator]()
+        })).to.equal(true);
+
+        const PermissiveIsemail: any = Isemail;
         expect(() => {
 
-            Isemail.validate('', {
+            PermissiveIsemail.validate('', {
                 tldBlacklist: 77
             });
         }).to.throw(/tldBlacklist/);
@@ -142,18 +176,18 @@ describe('validate()', () => {
 
         it('should accept a pure ASCII email address when false', () => {
 
-            expect(Isemail.validate('pure@ascii.org', {
+            expect(Isemail.isValid('pure@ascii.org', {
                 allowUnicode: false
             })).to.equal(true);
         });
 
         it('should reject email addresses containing unicode when false', () => {
 
-            expect(Isemail.validate('üñïçø∂é@example.com', {
+            expect(Isemail.isValid('üñïçø∂é@example.com', {
                 allowUnicode: false
             })).to.equal(false);
 
-            expect(Isemail.validate('unicode@exãmple.com', {
+            expect(Isemail.isValid('unicode@exãmple.com', {
                 allowUnicode: false
             })).to.equal(false);
         });
@@ -200,9 +234,10 @@ describe('validate()', () => {
 
     it('should ignore diagnoses in excludeDiagnoses', () => {
 
+        const PermissiveIsemail: any = Isemail;
         expect(() => {
 
-            Isemail.validate('person@123', { excludeDiagnoses: true });
+            PermissiveIsemail.validate('person@123', { excludeDiagnoses: true });
         }).to.throw(TypeError, /excludeDiagnoses/);
 
         expect(() => {
@@ -235,39 +270,33 @@ describe('validate()', () => {
         })).to.equal(diag.rfc5321AddressLiteral);
 
         expect(Isemail.validate('"person"@123', {
-            excludeDiagnoses: [diag.rfc5321QuotedString],
-            errorLevel: true
+            excludeDiagnoses: [diag.rfc5321QuotedString]
         })).to.equal(diag.rfc5321TLDNumeric);
 
         expect(Isemail.validate('"person"@abc(comment).123', {
-            excludeDiagnoses: [diag.cfwsComment],
-            errorLevel: true
+            excludeDiagnoses: [diag.cfwsComment]
         })).to.equal(diag.rfc5321QuotedString);
 
         expect(Isemail.validate('"person"@(yes)abc(comment).123', {
-            excludeDiagnoses: [diag.rfc5321TLDNumeric, diag.deprecatedCFWSNearAt],
-            errorLevel: true
+            excludeDiagnoses: [diag.rfc5321TLDNumeric, diag.deprecatedCFWSNearAt]
         })).to.equal(diag.cfwsComment);
     });
 
     it('should handle omitted options', () => {
 
-        expect(Isemail.validate(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
+        expect(Isemail.isValid(expectations[0][0])).to.equal(expectations[0][1] < internals.defaultThreshold);
     });
 
     it('should permit address literals with multiple required domain atoms', () => {
 
         expect(Isemail.validate('joe@[IPv6:2a00:1450:4001:c02::1b]', {
-            minDomainAtoms: 2,
-            errorLevel: true
+            minDomainAtoms: 2
         })).to.equal(diag.rfc5321AddressLiteral);
 
         // Do not provide the same treatment to mixed domain parts.
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('joe@[IPv6:2a00:1450:4001:c02::1b].com', diagnoses);
-        Validation.optionsValidation(parser.parse(), diagnoses, {
-            minDomainAtoms: 3,
-            errorLevel: true
+        const { diagnoses, parse } = internals.expectParse('joe@[IPv6:2a00:1450:4001:c02::1b].com');
+        Validation.optionsValidation(parse, diagnoses, {
+            minDomainAtoms: 3
         });
 
         expect(diagnoses.hasDiagnosis(diag.errDomainTooShort)).to.equal(true);
@@ -276,21 +305,22 @@ describe('validate()', () => {
 
     expectations.forEach((obj, i) => {
 
-        const email = obj[0];
-        const result = obj[1];
+        const [email, expectedResult] = obj;
+
         it('should handle test ' + (i + 1), () => {
 
             const res = Isemail.validate(email, {
                 errorLevel: 0
             });
-            expect(res).to.equal(result);
+            if (res !== expectedResult) {
+                throw new Error(`Expected diagnosis ${internals.formatDiagnosis(expectedResult)}, but got ${internals.formatDiagnosis(res)}`);
+            }
         });
     });
 
     asciiTldExpectations.forEach((obj, i) => {
 
-        const email = obj[0];
-        const result = obj[1];
+        const [email, result] = obj;
 
         it('should handle tld test ' + (i + 1), () => {
 
@@ -319,8 +349,7 @@ describe('validate()', () => {
 
     unicodeTldExpectations.forEach((obj, i) => {
 
-        const email = obj[0];
-        const result = obj[1];
+        const [email, result] = obj;
 
         it('should handle unicode tld test (' + email + ') ' + (i + 1), () => {
 
@@ -343,16 +372,17 @@ describe('validate()', () => {
 
     it('should check domain atoms', () => {
 
+        const PermissiveIsemail: any = Isemail;
         expect(() => {
 
-            Isemail.validate('shouldbe@invalid', {
+            PermissiveIsemail.validate('shouldbe@invalid', {
                 minDomainAtoms: true
             });
         }).to.throw(TypeError, /minDomainAtoms/);
 
         expect(() => {
 
-            Isemail.validate('shouldbe@invalid', {
+            PermissiveIsemail.validate('shouldbe@invalid', {
                 minDomainAtoms: 0.5
             });
         }).to.throw(TypeError, /minDomainAtoms/);
@@ -384,8 +414,7 @@ describe('normalize', () => {
 
         it('should properly normalize international characters', () => {
 
-            const normal = normalizingPair[1];
-            const email = normalizingPair[0];
+            const [email, normal] = normalizingPair;
             const normalizedEmail = Isemail.normalize(email);
 
             expect(email).to.not.equal(normal);
@@ -398,24 +427,28 @@ describe('parser', () => {
 
     it('should not downgrade from a quoted string by default', () => {
 
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('"human"@example.com', diagnoses);
-        const parse = parser.parse();
-
+        const { parse } = internals.expectParse('"human"@example.com');
         expect(parse.localParts).to.equal(['"human"']);
         expect(parse.local).to.equal('"human"');
     });
 
     it('should optionally downgrade from a quoted string when none is necessary', () => {
 
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('"human"@example.com', diagnoses, {
+        const { parse } = internals.expectParse('"human"@example.com', {
             normalizeUnnecessaryQuoted: true
         });
-        const parse = parser.parse();
 
         expect(parse.localParts).to.equal(['human']);
         expect(parse.local).to.equal('human');
+    });
+
+    it('should not downgrade empty quoted string', () => {
+
+        const { parse } = internals.expectParse('""@example.com', {
+            normalizeUnnecessaryQuoted: true
+        });
+        expect(parse.localParts).to.equal(['""']);
+        expect(parse.local).to.equal('""');
     });
 });
 
@@ -423,9 +456,8 @@ describe('validation', () => {
 
     it('should report no domain and too short', () => {
 
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('invalid@', diagnoses);
-        Validation.optionsValidation(parser.parse(), diagnoses, {
+        const { diagnoses, parse } = internals.expectParse('invalid@');
+        Validation.optionsValidation(parse, diagnoses, {
             minDomainAtoms: 1
         });
 
@@ -435,9 +467,9 @@ describe('validation', () => {
 
     it('should report no domain and an invalid TLD with a whitelist', () => {
 
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('invalid@', diagnoses);
-        Validation.optionsValidation(parser.parse(), diagnoses, {
+        const { diagnoses, parse } = internals.expectParse('invalid@');
+        Validation.optionsValidation(parse, diagnoses, {
+            // $FlowFixMe: https://github.com/facebook/flow/issues/7458
             tldWhitelist: ['com']
         });
 
@@ -447,9 +479,9 @@ describe('validation', () => {
 
     it('should report no domain but valid TLD with a blacklist', () => {
 
-        const diagnoses = new Diagnoses();
-        const parser = new Parser('invalid@', diagnoses);
-        Validation.optionsValidation(parser.parse(), diagnoses, {
+        const { diagnoses, parse } = internals.expectParse('invalid@');
+        Validation.optionsValidation(parse, diagnoses, {
+            // $FlowFixMe: https://github.com/facebook/flow/issues/7458
             tldBlacklist: ['com']
         });
 
