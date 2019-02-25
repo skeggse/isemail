@@ -40,7 +40,7 @@ Determines whether the `email` is valid or not, for various definitions thereof.
 
 Use `errorLevel` to specify the type of result for `validate()`. Passing a `false` literal will result in a true or false boolean indicating whether the email address is sufficiently defined for use in sending an email. Passing a `true` literal will result in a more granular numeric status, with zero being a perfectly valid email address. Passing a number will return `0` if the numeric status is below the `errorLevel` and the numeric status otherwise.
 
-The `tldBlacklist` option can be either an object lookup table or an array of invalid top-level domains. If the email address has a top-level domain that is in the whitelist, the email will be marked as invalid.
+The `tldBlacklist` option can be either an object lookup table or an array of invalid top-level domains. If the email address has a top-level domain that is in the blacklist, the email will be marked as invalid.
 
 The `tldWhitelist` option can be either an object lookup table or an array of valid top-level domains. If the email address has a top-level domain that is not in the whitelist, the email will be marked as invalid.
 
