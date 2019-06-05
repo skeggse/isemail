@@ -2,7 +2,7 @@
 
 Node email address validation library
 
-[![Build Status](https://travis-ci.org/hapijs/isemail.svg?branch=master)](https://travis-ci.org/hapijs/isemail)<a href="#footnote-1"><sup>&#91;1&#93;</sup></a>
+[![Build Status](https://travis-ci.org/skeggse/isemail.svg?branch=master)](https://travis-ci.org/skeggse/isemail)<a href="#footnote-1"><sup>&#91;1&#93;</sup></a>
 
 Lead Maintainer: [Eli Skeggs][skeggse]
 
