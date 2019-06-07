@@ -1,0 +1,15 @@
+{
+    "extends": "../.eslintrc.json",
+    "globals": {
+        "$Keys": true,
+        "Iterable": true,
+        "IteratorResult": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "plugins": [
+        "flowtype"
+    ]
+}
