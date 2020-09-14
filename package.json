@@ -22,11 +22,17 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "punycode": "2.x.x"
+    "punycode": "^2.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-flow": "^7.0.0",
     "code": "^5.2.0",
-    "lab": "^16.1.0"
+    "flow-bin": "^0.91.0",
+    "lab": "^16.1.0",
+    "rollup": "^0.68.0",
+    "rollup-plugin-babel": "^4.1.0"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L -m 5000",
