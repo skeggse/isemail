@@ -76,6 +76,12 @@ false
 65
 > Isemail.validate('test@', {errorLevel: true});
 131
+> Isemail.validate('test@iana', {minDomainAtoms: 1}); // default
+true
+> Isemail.validate('test@iana', {minDomainAtoms: 2});
+false
+> Isemail.validate('test@iana.io', {minDomainAtoms: 2});
+true
 ```
 
 <sup name="footnote-1">&#91;1&#93;</sup>: if this badge indicates the build is passing, then isemail has 100% code coverage.
