@@ -2,6 +2,8 @@
 
 Node email address validation library
 
+Deprecated: this project is no longer maintained. If you're looking for an email validator, there are many available on npm. I'm confident that [joi's implementation](https://joi.dev/api/?v=17.13.3#stringemailoptions) does a good job validating emails.
+
 [![Build Status](https://travis-ci.org/skeggse/isemail.svg?branch=master)](https://travis-ci.org/skeggse/isemail)<a href="#footnote-1"><sup>&#91;1&#93;</sup></a>
 
 Lead Maintainer: [Eli Skeggs][skeggse]
